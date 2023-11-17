@@ -19,6 +19,7 @@ namespace Assets.Scripts.Attack {
             MotionValue = 0.7f;
             DoScreenShake = false;
             DoFrozenFrame = false;
+            StaminaCost = 18;
             AnimationTrigger = "Attack";
         }
 
@@ -37,6 +38,7 @@ namespace Assets.Scripts.Attack {
             MotionValue = 1f;
             DoScreenShake = false;
             DoFrozenFrame = false;
+            StaminaCost = 18;
             AnimationTrigger = "Combo";
         }
 

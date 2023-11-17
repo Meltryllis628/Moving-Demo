@@ -28,9 +28,18 @@ namespace Game {
             PlayerSpriteRenderer.Instance.SetBool(name, value);
         }
 
+        public void SetCameraPos() { 
+            if (Position.y > 3) {
+                cameraPos = new Vector2(Position.x, 2f);
+            } else {
+                cameraPos = new Vector2(Position.x, -1f);
+            }
+        }
+
         public void UpdateRender() {
             PlayerSpriteRenderer.Instance.position = Position + collider.position;
             PlayerSpriteRenderer.Instance.facing = Facing;
+            SetCameraPos();
             PlayerSpriteRenderer.Instance.cameraPos = cameraPos;
             PlayerSpriteRenderer.Instance.SpeedX = Mathf.Abs(Speed.x);
             PlayerSpriteRenderer.Instance.SpeedY = Speed.y;

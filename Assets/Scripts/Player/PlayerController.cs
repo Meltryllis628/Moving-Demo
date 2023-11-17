@@ -15,6 +15,8 @@ namespace Game {
         private int frameRate = 60;
         private float deltaTime;
 
+        public bool isAlive = true;
+
         public Vector2 Position;
         public Vector2 InitPos = new Vector2(1f, -1.5f);
         public Vector2 Speed;
@@ -141,6 +143,7 @@ namespace Game {
         void Start() {
             this.stateMachine.State = (int)EActionState.Normal;
             this.SetUpWeapons(TestRangedWeapon, TestMeleeWeapon);
+            isAlive = true;
         }
 
         private void OnDestroy() {
@@ -149,15 +152,18 @@ namespace Game {
 
         // Update is called once per frame
         void Update() {
+            if (!isAlive) {
+                return;
+            }
             
             GameInput.Update(deltaTime);
 
 
             CalcFix();
-
+            CheckForSomeObject();
             JoystickValue = GameInput.Joystick.Value;
             ButtonBufferTime = GameInput.JumpButton.buffer;
-
+            RecoverStamina(deltaTime);
             if (varJumpTimer > 0) {
                 varJumpTimer -= deltaTime;
             }
@@ -224,6 +230,11 @@ namespace Game {
             }*/
             transform.position = this.Position + collider.position;
             UpdateRender();
+        }
+
+        public void Die() {
+            isAlive = false;
+            PlayAnimation("Die");
         }
 
         public void SetState(int state) {

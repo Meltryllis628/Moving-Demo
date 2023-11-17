@@ -56,6 +56,11 @@ namespace Game {
 
         public EActionState Shoot(Weapon RangedWeapon) {
             CurrentRangedAttack = (RangedAttack)RangedWeapon.GetNextAttack(AttackKey.Shoot);
+            if (CurrentRangedAttack.ElecCost > Elec) {
+                CurrentRangedWeapon.GetNextAttack(AttackKey.Break);
+                return EActionState.Normal;
+            }
+            Elec -= CurrentRangedAttack.ElecCost;
             AttackFrames1 = CurrentRangedAttack.ShootingAnimationFrames;
             AttackFrames1MaxSpeed = CurrentRangedAttack.ShootingAnimationMaxSpeed;
             AttackFrames2 = 0;
@@ -67,6 +72,12 @@ namespace Game {
 
         public EActionState Attack(Weapon MeleeWeapon) {
             CurrentMeleeAttack = (MeleeAttack)MeleeWeapon.GetNextAttack(AttackKey.Light);
+            if (CurrentMeleeAttack.StaminaCost > Stamina) {
+                CurrentMeleeWeapon.GetNextAttack(AttackKey.Break);
+                return EActionState.Normal;
+            }
+            Stamina -= CurrentMeleeAttack.StaminaCost;
+            LockStamina();
             AttackFrames1 = CurrentMeleeAttack.BeforeAttackFrames;
             AttackFrames1MaxSpeed = CurrentMeleeAttack.BeforeAttackMaxSpeed;
             AttackFrames2 = CurrentMeleeAttack.AttackFrames;

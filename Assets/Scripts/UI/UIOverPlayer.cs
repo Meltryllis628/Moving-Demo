@@ -25,6 +25,8 @@ namespace Assets.Scripts.UI {
         public Image MaxStaminaBar;
         private int Soul;
         public TextMeshProUGUI SoulText;
+
+        public Canvas DiePanel;
         private void Start() {
             Player = this.transform.parent.GetComponent<PlayerController>();
 
@@ -52,15 +54,21 @@ namespace Assets.Scripts.UI {
             MaxElec = Player.MaxElec;
             MaxStamina = Player.MaxStamina;
             Soul = Player.Soul;
-            HPBar.rectTransform.sizeDelta = new Vector2(HP * 2+20, 25);
-            ElecBar.rectTransform.sizeDelta = new Vector2(Elec * 2+20, 25);
-            StaminaBar.rectTransform.sizeDelta = new Vector2(Stamina * 2+20, 25);
-            MaxHPBar.rectTransform.sizeDelta = new Vector2(MaxHP * 2+35, 40);
-            MaxElecBar.rectTransform.sizeDelta = new Vector2(MaxElec * 2+35, 40);
-            MaxStaminaBar.rectTransform.sizeDelta = new Vector2(MaxStamina * 2+35, 40);
+            HPBar.rectTransform.sizeDelta = new Vector2(HP * 0.8f + 20f, 25f);
+            ElecBar.rectTransform.sizeDelta = new Vector2(Elec * 2f+20f, 25f);
+            StaminaBar.rectTransform.sizeDelta = new Vector2(Stamina * 3f + 20f, 25f);
+            MaxHPBar.rectTransform.sizeDelta = new Vector2(MaxHP * 0.8f + 35f, 40f);
+            MaxElecBar.rectTransform.sizeDelta = new Vector2(MaxElec * 2f+35f, 40f);
+            MaxStaminaBar.rectTransform.sizeDelta = new Vector2(MaxStamina * 3f+35f, 40f);
             SoulText.text = Int2String(Soul);
         }
         private void Update() {
+            if (Player == null) return;
+            if (Player.isAlive) {
+                DiePanel.gameObject.SetActive(false);
+            } else { 
+                DiePanel.gameObject.SetActive(true);
+            }
             UpdateBarValues();
         }
     }

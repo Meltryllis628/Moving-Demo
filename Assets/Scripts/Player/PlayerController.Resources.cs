@@ -28,11 +28,36 @@ namespace Game
         public int TEC;
         public int LUC;
         public int Level;
-        [Header("属性的补正数值")]
-        public float STRFix;
-        public float DEXFix;
-        public float TECFix;
-        public float LUCFix;
+        public float STRFix { get { return CalcFixValue(STR); } }
+        public float DEXFix { get { return CalcFixValue(DEX); } }
+        public float TECFix { get { return CalcFixValue(TEC); } }
+        public float LUCFix { get { return CalcFixValue(LUC); } }
+
+        private float staminaRecoverConuntdown = 0f;
+        public bool LoadDataFromFile = false;
+
+        public void LockStamina() {
+            staminaRecoverConuntdown = Constants.StaminaLockCountdown;
+        }
+        private void RecoverStamina(float deltatime) {
+            if (Stamina >= MaxStamina) { 
+                Stamina = MaxStamina;
+                return;
+            }
+            if (staminaRecoverConuntdown <= 0) { 
+                Stamina += 1;
+            }
+            else {
+                staminaRecoverConuntdown -= deltatime;
+            }
+        }
+        public void TakeDamage(int amount) {
+            HP -= amount;
+            if (HP <= 0) {
+                HP = 0;
+                Die();
+            }
+        }
 
         private PlayerInfo LoadFromFile() {
             PlayerInfo info = null;
@@ -78,15 +103,15 @@ namespace Game
             }
             return result;
         }
+
+        public void GainSoul(int amount) { 
+            Soul += amount;
+        }
         private void CalcFix() {
-            STRFix = CalcFixValue(STR);
-            DEXFix = CalcFixValue(DEX);
-            TECFix = CalcFixValue(TEC);
-            LUCFix = CalcFixValue(LUC);
         }
         private void LoadPlayerInfo() {
             PlayerInfo = LoadFromFile();
-            if (PlayerInfo == null) {
+            if (PlayerInfo == null || !LoadDataFromFile) {
                 PlayerInfo = ScriptableObject.CreateInstance<PlayerInfo>();
                 PlayerInfo.SaveData();
             }

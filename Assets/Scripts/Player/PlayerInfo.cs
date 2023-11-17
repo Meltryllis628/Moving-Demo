@@ -11,9 +11,9 @@ using UnityEngine;
 public class PlayerInfo: ScriptableObject {
     private string Name = "PlayerInfo";
     [Header("属性的原生数值")]
-    public int MaxHP = 100;
-    public int MaxElec = 50;
-    public int MaxStamina = 100;
+    public int MaxHP = 300;
+    public int MaxElec = 40;
+    public int MaxStamina = 80;
     public int STROrigin = 10;
     public int DEXOrigin = 10;
     public int TECOrigin = 10;
@@ -23,9 +23,9 @@ public class PlayerInfo: ScriptableObject {
     public int StaminaOrigin = 10;
     public int Level = 0;
     [Header("属性的实时数值")]
-    public int HP = 100;
-    public int Elec = 50;
-    public int Stamina = 100;
+    public int HP = 300;
+    public int Elec = 40;
+    public int Stamina = 80;
     public int Soul = 1000;
     public int STR = 10;
     public int DEX = 10;

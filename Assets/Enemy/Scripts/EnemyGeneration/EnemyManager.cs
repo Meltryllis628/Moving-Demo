@@ -19,10 +19,6 @@ public class EnemyManager : Singleton<EnemyManager> {
     public EnemyGeneration enemyGeneration;
     private GameObject[] enemies;
     public int currentLevel = 0;
-    public override void Awake() {
-        base.Awake();
-
-    }
     
     public void GameStart() {
         enemyGeneration = enemyGenerations[currentLevel];

@@ -15,6 +15,7 @@ namespace Assets.Scripts.Attack.PistolAttacks {
             this.DoScreenShake = false;
             this.DoFrozenFrame = false;
             this.AnimationTrigger = "Shoot";
+            this.ElecCost = 7;
         }
     }
 }

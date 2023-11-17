@@ -7,7 +7,8 @@ public abstract class Action : ScriptableObject {
 
 public enum ActionType {
     Attack = 0,
-    Default = -1
+    Default = -1,
+    Defend = 1
 }
 
 public enum AffectType {
@@ -112,14 +113,11 @@ public abstract class StateController : MonoBehaviour {
         return stateTimeElapsed >= duration;
     }
 
-    public void Update() {
+    public virtual void Update() {
         if (!isActive) return; // this is different from gameObject active, allow for separate control
         currentState.UpdateState(this);
-        UpdateObj(Time.deltaTime);
     }
-
-    public virtual void UpdateObj(float deltaTime) {
-    }
+    
     /********************************/
 
 

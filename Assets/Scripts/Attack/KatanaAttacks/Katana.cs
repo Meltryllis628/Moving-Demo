@@ -18,6 +18,7 @@ namespace Assets.Scripts.Attack {
         public IAttack CurrentAttack { get; set; }
         public GameObject[] AttackPrefabs;
         public KatanaAttackState CurrentState { get; set; }
+        
 
         public override IAttack GetCurrentAttack() {
             return CurrentAttack;

@@ -6,6 +6,12 @@ TagManager:
   tags:
   - SceneObject
   - PlayerProjectile
+  - Enemy
+  - EnemyProjectile
+  - MovingPlatform
+  - Ground
+  - Trap
+  - Void
   layers:
   - Default
   - TransparentFX
@@ -15,9 +21,9 @@ TagManager:
   - UI
   - Ground
   - PlayerProjectile
-  - 
-  - 
-  - 
+  - EnemyProjectile
+  - Enemy
+  - Player
   - 
   - 
   - 
