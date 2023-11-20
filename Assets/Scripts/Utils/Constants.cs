@@ -105,5 +105,8 @@ namespace Game {
         #region 体力
         public static float StaminaLockCountdown = .5f; //体力锁定时间
         #endregion
+
+        public static float InvinsibleOnHitTime = .2f; //受伤无敌时间
+        public static float TubeSwtichColdDownTime = .1f;
     }
 }

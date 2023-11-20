@@ -1,10 +1,12 @@
 ﻿using Assets.Scripts.Attack;
+using Assets.Scripts.Buff;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static Assets.Scripts.Buff.Invinsible;
 
 namespace Game {
     public partial class PlayerController {
@@ -55,6 +57,7 @@ namespace Game {
         
 
         public EActionState Shoot(Weapon RangedWeapon) {
+            GameInput.ShootButton.ConsumeBuffer();
             CurrentRangedAttack = (RangedAttack)RangedWeapon.GetNextAttack(AttackKey.Shoot);
             if (CurrentRangedAttack.ElecCost > Elec) {
                 CurrentRangedWeapon.GetNextAttack(AttackKey.Break);
@@ -71,6 +74,7 @@ namespace Game {
         
 
         public EActionState Attack(Weapon MeleeWeapon) {
+            GameInput.AttackButton.ConsumeBuffer();
             CurrentMeleeAttack = (MeleeAttack)MeleeWeapon.GetNextAttack(AttackKey.Light);
             if (CurrentMeleeAttack.StaminaCost > Stamina) {
                 CurrentMeleeWeapon.GetNextAttack(AttackKey.Break);

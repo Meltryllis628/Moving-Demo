@@ -29,10 +29,12 @@ namespace Game {
         }
 
         public void SetCameraPos() { 
-            if (Position.y > 3) {
-                cameraPos = new Vector2(Position.x, 2f);
-            } else {
+            if (Position.y <= 0f) {
                 cameraPos = new Vector2(Position.x, -1f);
+            } else if (Position.y >= 5) {
+                cameraPos = new Vector2(Position.x, 6f);
+            } else { 
+                cameraPos = new Vector2(Position.x, -1f + 7f * (Position.y/5f));
             }
         }
 

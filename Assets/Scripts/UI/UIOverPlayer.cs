@@ -7,6 +7,8 @@ using UnityEngine;
 using Game;
 using UnityEngine.UI;
 using TMPro;
+using Assets.Scripts.Buff;
+using Assets.Scripts.Items;
 
 namespace Assets.Scripts.UI {
     public class UIOverPlayer:MonoBehaviour {
@@ -25,11 +27,16 @@ namespace Assets.Scripts.UI {
         public Image MaxStaminaBar;
         private int Soul;
         public TextMeshProUGUI SoulText;
+        public GameObject[] BuffPanels;
+        public BuffIconList buffIconList;
+        public GameObject VaccTubePrefab;
+        public Transform VaccTubePanel;
+        private GameObject[] VaccTubes;
 
         public Canvas DiePanel;
         private void Start() {
             Player = this.transform.parent.GetComponent<PlayerController>();
-
+            InitializeTubePool();
         }
         private string Len3(int value) {
             string result = "";
@@ -62,6 +69,94 @@ namespace Assets.Scripts.UI {
             MaxStaminaBar.rectTransform.sizeDelta = new Vector2(MaxStamina * 3f+35f, 40f);
             SoulText.text = Int2String(Soul);
         }
+        private void UpdateBuff() {
+            int displayCount = 0;
+            for (int i = 0; i < Player.buffs.Count; i++) {
+                if (Player.buffs[i].currentID != -1) {
+                    BuffPanels[displayCount].GetComponent<BuffPanel>().display = true;
+                    BuffPanels[displayCount].GetComponent<BuffPanel>().buffIcon = buffIconList.buffIcons[Player.buffs[i].icon].icon;
+                    BuffPanels[displayCount].GetComponent<BuffPanel>().buffTime = Player.buffs[i].time;
+                    BuffPanels[displayCount].SetActive(true);
+                    displayCount++;
+                }
+            }
+            while (displayCount < 6) {
+                BuffPanels[displayCount].GetComponent<BuffPanel>().display = false;
+                BuffPanels[displayCount].SetActive(false);
+                displayCount++;
+            }
+        }
+
+        public void InitializeTubePool() {
+            VaccTubes = new GameObject[12];
+            for (int i = 0; i < 12; i++) {
+                GameObject tube = Instantiate(VaccTubePrefab, VaccTubePanel);
+                tube.transform.localPosition = new Vector3(i * 40f + 4f, 0f, 0f);
+                tube.GetComponent<Tube>().SetColor(TubeColor.Empty);
+                VaccTubes[i] = tube;
+            }
+        }
+        public void UpdateTubes() {
+            switch (Player.CurrentTube) {
+                case TubeType.HP:
+                    for (int i = 0; i < 12; i++) {
+                        if (i < Player.RedTubes) {
+                            VaccTubes[i].SetActive(true);
+                            VaccTubes[i].GetComponent<Tube>().SetColor(TubeColor.Red);
+                        } else if (i < Player.MaxRedTubes) {
+                            VaccTubes[i].SetActive(true);
+                            VaccTubes[i].GetComponent<Tube>().SetColor(TubeColor.Empty);
+                        } else {
+                            VaccTubes[i].SetActive(false);
+                        }
+                    }
+                    break;
+                case TubeType.MP:
+                    for (int i = 0; i < 12; i++) {
+                        if (i < Player.BlueTubes) {
+                            VaccTubes[i].SetActive(true);
+                            VaccTubes[i].GetComponent<Tube>().SetColor(TubeColor.Blue);
+                        } else if (i < Player.MaxBlueTubes) {
+                            VaccTubes[i].SetActive(true);
+                            VaccTubes[i].GetComponent<Tube>().SetColor(TubeColor.Empty);
+                        } else {
+                            VaccTubes[i].SetActive(false);
+                        }
+                    }
+                    break;
+                case TubeType.InfiMp:
+                    for (int i = 0; i < 12; i++) {
+                        if (i < Player.GreenTubes) {
+                            VaccTubes[i].SetActive(true);
+                            VaccTubes[i].GetComponent<Tube>().SetColor(TubeColor.Green);
+                        } else if (i < Player.MaxGreenTubes) {
+                            VaccTubes[i].SetActive(true);
+                            VaccTubes[i].GetComponent<Tube>().SetColor(TubeColor.Empty);
+                        } else {
+                            VaccTubes[i].SetActive(false);
+                        }
+                    }
+                    break;
+                case TubeType.InfiStamina:
+                    for (int i = 0; i < 12; i++) {
+                        if (i < Player.YellowTubes) {
+                            VaccTubes[i].SetActive(true);
+                            VaccTubes[i].GetComponent<Tube>().SetColor(TubeColor.Yellow);
+                        } else if (i < Player.MaxYellowTubes) {
+                            VaccTubes[i].SetActive(true);
+                            VaccTubes[i].GetComponent<Tube>().SetColor(TubeColor.Empty);
+                        } else {
+                            VaccTubes[i].SetActive(false);
+                        }
+                    }
+                    break;
+                case TubeType.None:
+                    for (int i = 0; i < 12; i++) {
+                        VaccTubes[i].SetActive(false);
+                    }
+                    break;
+            }
+        }
         private void Update() {
             if (Player == null) return;
             if (Player.isAlive) {
@@ -70,6 +165,8 @@ namespace Assets.Scripts.UI {
                 DiePanel.gameObject.SetActive(true);
             }
             UpdateBarValues();
+            UpdateBuff();
+            UpdateTubes();
         }
     }
 }

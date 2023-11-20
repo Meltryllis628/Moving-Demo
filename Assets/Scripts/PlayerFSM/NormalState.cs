@@ -105,7 +105,7 @@ namespace Game {
                         max = Mathf.Lerp(Constants.MaxFall, Constants.WallSlideStartMax, player.WallSlideTimer / Constants.WallSlideTime);
                         //TODO: effect
                         player.PlayAnimation("Slip");
-                    }
+                    } else player.PlayAnimation("Jump");
                 }
 
                 
@@ -154,6 +154,9 @@ namespace Game {
             }
             if (player.CanShoot) {
                 return player.Shoot(player.CurrentRangedWeapon);
+            }
+            if (player.CanConsume) {
+                player.UseTube();
             }
             #endregion
 

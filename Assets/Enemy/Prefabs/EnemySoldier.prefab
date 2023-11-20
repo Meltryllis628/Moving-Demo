@@ -302,7 +302,7 @@ MonoBehaviour:
   patrolRangeR: 10
   patrolSpeed: 3
   scoutSpeed: 4
-  maxHP: 100
+  maxHP: 160
   dieWaitTime: 0.8
   detectRange: 8
   SoulAmount: 122

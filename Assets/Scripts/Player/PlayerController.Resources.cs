@@ -36,6 +36,9 @@ namespace Game
         private float staminaRecoverConuntdown = 0f;
         public bool LoadDataFromFile = false;
 
+        public int DamageToTake = 0;
+        public string DamageTag = "";
+
         public void LockStamina() {
             staminaRecoverConuntdown = Constants.StaminaLockCountdown;
         }
@@ -52,11 +55,38 @@ namespace Game
             }
         }
         public void TakeDamage(int amount) {
-            HP -= amount;
-            if (HP <= 0) {
-                HP = 0;
-                Die();
+            if (invinsibleOnHitTimer <= 0) {
+                DamageToTake = amount;
+                DamageTag = "";
+                UpdateEquipsOnHurt();
+                HP -= DamageToTake;
+                if (HP <= 0) {
+                    HP = 0;
+                    Die();
+                }
+                invinsibleOnHitTimer = Constants.InvinsibleOnHitTime;
             }
+        }
+        public void TakeDamage(int amount, string tag) {
+            if (invinsibleOnHitTimer <= 0) {
+                DamageToTake = amount;
+                DamageTag = tag;
+                UpdateEquipsOnHurt();
+                HP -= DamageToTake;
+                if (HP <= 0) {
+                    HP = 0;
+                    Die();
+                }
+                invinsibleOnHitTimer = Constants.InvinsibleOnHitTime;
+            }
+        }
+        public void RestoreHP(int amount) {
+            HP += amount;
+            if (HP > MaxHP) HP = MaxHP;
+        }
+        public void RestoreElec(int amount) {
+            Elec += amount;
+            if (Elec > MaxElec) Elec = MaxElec;
         }
 
         private PlayerInfo LoadFromFile() {

@@ -26,10 +26,11 @@ namespace Assets.Scripts.Attack {
         public float TECFix;
         public float LUCFix;
         public float DEXFix;
+        public float TempMultiplication = 1;
         public int BasicDamage => GetBasicDamage();
 
         public virtual int GetBasicDamage() {
-            return (int)(BasicAtk*(1 + STRFix * Player.STRFix + TECFix * Player.TECFix + LUCFix * Player.LUCFix + DEXFix * Player.DEXFix));
+            return (int)(BasicAtk*TempMultiplication*(1 + STRFix * Player.STRFix + TECFix * Player.TECFix + LUCFix * Player.LUCFix + DEXFix * Player.DEXFix));
         }
 
         public abstract IAttack GetCurrentAttack();

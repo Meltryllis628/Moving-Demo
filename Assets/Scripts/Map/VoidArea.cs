@@ -12,7 +12,7 @@ namespace Assets.Scripts.Map {
 
         public void GetOut(PlayerController player) { 
             player.Position = BackTo;
-            player.TakeDamage(Damage);
+            player.TakeDamage(Damage, "Fallen");
         }
     }
 }

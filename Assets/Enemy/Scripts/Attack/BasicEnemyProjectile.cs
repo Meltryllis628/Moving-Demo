@@ -26,7 +26,7 @@ namespace Enemy
             body = GetComponent<Rigidbody2D>();
             collider = GetComponent<Collider2D>();
             
-            // StartCoroutine(WaitAndDestroy());
+            StartCoroutine(WaitAndDestroy());
             // TODO: alternatively, destroy when exceeding the viewport
         }
 

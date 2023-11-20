@@ -12,6 +12,8 @@ namespace Game {
 
         public LayerMask groundMask;
 
+        private float invinsibleOnHitTimer = 0f;
+
         private int frameRate = 60;
         private float deltaTime;
 
@@ -143,6 +145,7 @@ namespace Game {
         void Start() {
             this.stateMachine.State = (int)EActionState.Normal;
             this.SetUpWeapons(TestRangedWeapon, TestMeleeWeapon);
+            this.InitInventory();
             isAlive = true;
         }
 
@@ -158,16 +161,29 @@ namespace Game {
             
             GameInput.Update(deltaTime);
 
-
+            UpdateBuff(deltaTime);
             CalcFix();
             CheckForSomeObject();
+            UpdateEquipsOnUpdate();
             JoystickValue = GameInput.Joystick.Value;
             ButtonBufferTime = GameInput.JumpButton.buffer;
             RecoverStamina(deltaTime);
             if (varJumpTimer > 0) {
                 varJumpTimer -= deltaTime;
             }
-
+            if (invinsibleOnHitTimer > 0) {
+                invinsibleOnHitTimer -= deltaTime;
+            }
+            // switch tube 
+            if (GameInput.SwitchItem.Pressed()) {
+                if (tubeSwitchColdDown <= 0) {
+                    SwitchTubeType();
+                    tubeSwitchColdDown = Constants.TubeSwtichColdDownTime;
+                }
+            }
+            if (tubeSwitchColdDown > 0) {
+                tubeSwitchColdDown -= deltaTime;
+            }
 
             // move x
             if (ForceMoveXTimer > 0) {
